@@ -2,20 +2,37 @@ import datetime
 
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.utils import timezone
+
 
 class Survey(models.Model):
     name = models.CharField(max_length=200)
-
+    
     def __str__(self):
         return self.name
 
+    def questions(self):
+        return self.question_set
+
+
 class Question(models.Model):
     content = models.CharField(max_length=200)
-    surveys = models.ManyToManyField(Survey)
-    answer_type = models.CharField(max_length=20, default='single-select')
+    single_select = models.BooleanField(default=True)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.content
+    
+    def answers(self):
+        return self.answer_set
+    
+    @property
+    def answer_type(self):
+        if self.single_select == True:
+            return 'single-select'
+        else:
+            return 'open'
+
 
 class Answer(models.Model):
     content = models.CharField(max_length=200)
@@ -25,11 +42,13 @@ class Answer(models.Model):
     def __str__(self):
         return self.content
     
+    
 class Lecture(models.Model):
     name = models.CharField(max_length=200)
-    start_time = models.DateTimeField
+    start_time = models.DateTimeField('Start time of lecture', default=timezone.now())
     duration = models.DurationField(default=datetime.timedelta(minutes=75))
     room = models.CharField(max_length=200)
+    speaker = models.CharField(max_length=200)
     rates = ArrayField(base_field=models.SmallIntegerField(blank=False), size=5, default=list([0 for x in range(5)]))
 
     def __str__(self):
@@ -47,3 +66,6 @@ class Lecture(models.Model):
             sumOfRates += (i + 1) * self.rates[i]
 
         return (sumOfRates / self.attendance())
+
+    def can_be_rated(self):
+        return (self.start_time + self.duration) >= (timezone.now() + datetime.timedelta(hours=1))

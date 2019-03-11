@@ -28,7 +28,7 @@ class Question(models.Model):
     
     @property
     def answer_type(self):
-        if self.single_select == True:
+        if self.single_select:
             return 'single-select'
         else:
             return 'open'
@@ -61,11 +61,11 @@ class Lecture(models.Model):
         if self.attendance() == 0:
             return 0
 
-        sumOfRates = 0
+        sum_of_rates = 0
         for i in range(len(self.rates)):
-            sumOfRates += (i + 1) * self.rates[i]
+            sum_of_rates += (i + 1) * self.rates[i]
 
-        return (sumOfRates / self.attendance())
+        return sum_of_rates / self.attendance()
 
     def can_be_rated(self):
         return (self.start_time + self.duration) >= (timezone.now() + datetime.timedelta(hours=1))

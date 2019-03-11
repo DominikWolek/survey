@@ -19,6 +19,7 @@ class QuestionSerializer(serializers.HyperlinkedModelSerializer):
 
 class SurveySerializer(serializers.HyperlinkedModelSerializer):
     questions = QuestionSerializer(many=True)
+
     class Meta:
         model = Survey
         fields = ('id', 'name', 'questions')

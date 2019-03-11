@@ -9,7 +9,7 @@ class AnswerInLine(admin.TabularInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields' : ['content', 'single_select', 'survey']})
+        (None,          {'fields': ['content', 'single_select', 'survey']})
     ]
     inlines = [AnswerInLine]
 
@@ -21,16 +21,18 @@ class QuestioninLine(admin.TabularInline):
 
 class SurveyAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields' : ['name']})
+        (None,          {'fields': ['name']})
     ]
     inlines = [QuestioninLine]
 
+
 class LectureAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields' : ['name', 'room', 'speaker', 'start_time', 'duration']})
+        (None,          {'fields': ['name', 'room', 'speaker', 'start_time', 'duration']})
     ]
     list_display = ('name', 'speaker', 'attendance', 'average_rate')
     list_filter = ['start_time']
+
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Survey, SurveyAdmin)

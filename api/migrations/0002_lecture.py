@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('api', '0001_initial'),
     ]
@@ -19,7 +18,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('duration', models.DurationField(default=datetime.timedelta(seconds=4500))),
                 ('room', models.CharField(max_length=200)),
-                ('rates', django.contrib.postgres.fields.ArrayField(base_field=models.SmallIntegerField(), default=[0, 0, 0, 0, 0], size=5)),
+                ('rates', django.contrib.postgres.fields.ArrayField(base_field=models.SmallIntegerField(),
+                                                                    default=[0, 0, 0, 0, 0], size=5)),
             ],
         ),
     ]

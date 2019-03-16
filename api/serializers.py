@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from .models import Survey, Question, Answer, Lecture
+from django.db.models import F
+from .models import Survey, Question, Answer, Lecture, Place, Day
 
 
 class AnswerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Answer
-        fields = ('id', 'content')
+        fields = ('id', 'value')
 
 
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
@@ -13,8 +14,7 @@ class QuestionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Question
-        fields = ('id', 'content', 'answer_type', 'answers')
-        read_only_fields = ('answer_type',)
+        fields = ('id', 'value', 'answers', 'answer_type')
 
 
 class SurveySerializer(serializers.HyperlinkedModelSerializer):
@@ -28,4 +28,32 @@ class SurveySerializer(serializers.HyperlinkedModelSerializer):
 class LectureSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Lecture
-        fields = ('name', 'start_time', 'duration', 'room')
+        fields = ('id', 'name', 'start_time', 'end_time', 'speaker')
+
+class PlaceSerializer(serializers.HyperlinkedModelSerializer):
+    lectures = LectureSerializer(many=True)
+    id = serializers.SerializerMethodField('ide')
+
+    class Meta:
+        model = Place
+        fields = ('id', 'room', 'lectures')
+
+    def ide(self, obj):
+        if obj.room == 'SFI Enterprise 1.38':
+            return 1
+        else:
+            return 2
+
+
+class DaySerializer(serializers.ModelSerializer):
+    rooms = PlaceSerializer(many=True)
+
+    class Meta:
+        model = Day
+        fields = ('day', 'rooms')        
+
+
+class ResponseSerializer(serializers.Serializer):
+    survey_id = serializers.IntegerField()
+    responses = serializers.JSONField()
+

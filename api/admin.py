@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Survey, Question, Answer, Lecture
+from api.models import Survey, Question, Answer, Lecture, Day, Place
 
 
 class AnswerInLine(admin.TabularInline):
@@ -25,15 +25,24 @@ class SurveyAdmin(admin.ModelAdmin):
     ]
     inlines = [QuestioninLine]
 
+class PlaceInLine(admin.TabularInline):
+    model = Place
+    extra = 2
+
+class DayAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,          {'fields': ['day']})
+    ]
+    inlines = [PlaceInLine]
 
 class LectureAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['name', 'room', 'speaker', 'start_time', 'duration']})
+        (None,          {'fields': ['name', 'room', 'speaker', 'start_time', 'end_time']})
     ]
     list_display = ('name', 'speaker', 'attendance', 'average_rate')
     list_filter = ['start_time']
 
-
+admin.site.register(Day, DayAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Lecture, LectureAdmin)

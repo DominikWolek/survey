@@ -1,25 +1,26 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Survey, Question, Answer, Lecture
-from .serializers import SurveySerializer, QuestionSerializer, AnswerSerializer, LectureSerializer
-
+from .models import Survey, Question, Answer, Lecture, Day
+from .serializers import SurveySerializer, QuestionSerializer, AnswerSerializer, LectureSerializer, DaySerializer
 
 class SurveyViewSet(viewsets.ModelViewSet):
+    paginator = None
     queryset = Survey.objects.all()
     serializer_class = SurveySerializer
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
+    paginator = None
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
+    paginator = None
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
 
-
 class LectureViewSet(viewsets.ModelViewSet):
-    can_be_rated_ids = [lecture.id for lecture in Lecture.objects.all() if lecture.can_be_rated()] 
-    queryset = Lecture.objects.filter(id__in=can_be_rated_ids).order_by('-start_time')        
-    serializer_class = LectureSerializer
+    paginator = None
+    queryset = Day.objects.all()
+    serializer_class = DaySerializer

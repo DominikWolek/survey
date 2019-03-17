@@ -54,6 +54,7 @@ class DaySerializer(serializers.ModelSerializer):
 
 
 class ResponseSerializer(serializers.Serializer):
-    survey_id = serializers.IntegerField()
     responses = serializers.JSONField()
 
+class RateSerializer(serializers.Serializer):
+    rate = serializers.IntegerField()        

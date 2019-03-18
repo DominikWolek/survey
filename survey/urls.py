@@ -5,8 +5,6 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'survey', views.SurveyViewSet)
-router.register(r'question', views.QuestionViewSet)
-router.register(r'answer', views.AnswerViewSet)
 router.register(r'lecture', views.LectureViewSet)
 
 urlpatterns = [

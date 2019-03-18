@@ -25,7 +25,6 @@ class SurveyViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            
 
 class QuestionViewSet(viewsets.ModelViewSet):
     paginator = None

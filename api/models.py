@@ -1,5 +1,4 @@
 import datetime
-
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.utils import timezone
@@ -84,3 +83,8 @@ class Lecture(models.Model):
             sum_of_rates += (i + 1) * self.rates[i]
 
         return sum_of_rates / self.attendance()
+    
+    def rate_lecture(self, rate):
+        print(self.__str__ + " rated with " + rate)
+        self.rates[rate - 1] += 1
+    

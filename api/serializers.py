@@ -54,7 +54,9 @@ class DaySerializer(serializers.ModelSerializer):
 
 
 class ResponseSerializer(serializers.Serializer):
-    responses = serializers.JSONField()
+    question_id = serializers.IntegerField()
+    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20))
+    open = serializers.CharField()
 
 class RateSerializer(serializers.Serializer):
     rate = serializers.IntegerField()        

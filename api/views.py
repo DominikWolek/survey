@@ -10,6 +10,16 @@ class SurveyViewSet(viewsets.ModelViewSet):
     queryset = Survey.objects.all()
     serializer_class = SurveySerializer
 
+    @action(detail=True, methods=['post'])
+    def reply(self, request, pk=None):
+        serializer = ResponseSerializer(request.data, many=True)
+        serializer.is_valid()
+        for dicto in serializer.data:
+            for id in dicto['closed']:
+                answer = Answer.objects.get(pk=id)
+                answer.votes += 1
+                answer.save()
+            
 
 class QuestionViewSet(viewsets.ModelViewSet):
     paginator = None

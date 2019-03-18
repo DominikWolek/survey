@@ -16,7 +16,7 @@ class Survey(models.Model):
 
 class Question(models.Model):
     value = models.CharField(max_length=200)
-    answer_type = models.CharField(max_length=20, default='single-select')
+    answer_type = models.CharField(max_length=20, default='single_select')
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -52,13 +52,7 @@ class Place(models.Model):
 
     def lectures(self):
         return self.lecture_set
-
-    # @property
-    # def id(self):
-    #     if self.room == 'SFI Enterprise 1.38':
-    #         return 1
-    #     else:
-    #         return 2
+        
 
 class Lecture(models.Model):
     name = models.CharField(max_length=200)

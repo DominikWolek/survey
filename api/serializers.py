@@ -54,9 +54,13 @@ class DaySerializer(serializers.ModelSerializer):
 
 
 class ResponseSerializer(serializers.Serializer):
-    question_id = serializers.IntegerField()
-    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20))
-    open = serializers.CharField()
+    id = serializers.IntegerField()
+    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20), allow_null=True)
+    open = serializers.CharField(allow_null=True)
 
 class RateSerializer(serializers.Serializer):
     rate = serializers.IntegerField()        
+
+class RateSpecifiedSerializer(serializers.Serializer):
+    lecture_id = serializers.IntegerField()
+    rate = serializers.IntegerField()

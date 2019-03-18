@@ -9,7 +9,7 @@ class AnswerInLine(admin.TabularInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['value', 'single_select', 'survey']})
+        (None,          {'fields': ['value', 'answer_type', 'survey']})
     ]
     inlines = [AnswerInLine]
 
@@ -37,7 +37,7 @@ class DayAdmin(admin.ModelAdmin):
 
 class LectureAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['name', 'room', 'speaker', 'start_time', 'end_time']})
+        (None,          {'fields': ['name', 'room', 'speaker', 'start_time', 'end_time', 'rates']})
     ]
     list_display = ('name', 'speaker', 'attendance', 'average_rate')
     list_filter = ['start_time']

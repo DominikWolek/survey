@@ -9,7 +9,7 @@ class AnswerInLine(admin.TabularInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['content', 'single_select', 'survey']})
+        (None,          {'fields': ['value', 'single_select', 'survey']})
     ]
     inlines = [AnswerInLine]
 

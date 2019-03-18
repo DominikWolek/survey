@@ -20,7 +20,7 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.content
+        return self.value
     
     def answers(self):
         return self.answer_set
@@ -32,7 +32,7 @@ class Answer(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.content
+        return self.value
 
 class Day(models.Model):
     day = models.DateField('Day', default = timezone.localdate)
@@ -85,6 +85,5 @@ class Lecture(models.Model):
         return sum_of_rates / self.attendance()
     
     def rate_lecture(self, rate):
-        print(self.__str__ + " rated with " + rate)
         self.rates[rate - 1] += 1
     

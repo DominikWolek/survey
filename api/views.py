@@ -19,6 +19,8 @@ class SurveyViewSet(viewsets.ModelViewSet):
                 answer = Answer.objects.get(pk=id)
                 answer.votes += 1
                 answer.save()
+
+
             
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -39,11 +41,11 @@ class LectureViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def rate(self, request, pk=None):
-        lecture = self.get_object()
+        lecture = Lecture.objects.get(pk=pk)
         serializer = RateSerializer(data=request.data)
         if serializer.is_valid() and 1 <= serializer.data['rate'] <= 5 :
             lecture.rate_lecture(serializer.data['rate'])
-            lecture.set()
+            lecture.save()
             return Response({'status' : 'lecture rated'})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

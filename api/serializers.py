@@ -53,13 +53,20 @@ class DaySerializer(serializers.ModelSerializer):
         fields = ('day', 'rooms')        
 
 
+class ManyResponsesSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    answers = serializers.JSONField()
+
+
 class ResponseSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20), allow_null=True)
     open = serializers.CharField(allow_null=True)
 
+
 class RateSerializer(serializers.Serializer):
     rate = serializers.IntegerField()        
+
 
 class RateSpecifiedSerializer(serializers.Serializer):
     lecture_id = serializers.IntegerField()

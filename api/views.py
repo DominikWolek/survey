@@ -3,18 +3,20 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Survey, Question, Answer, Lecture, Day
-from .serializers import SurveySerializer, QuestionSerializer, AnswerSerializer, LectureSerializer, DaySerializer, RateSerializer, ResponseSerializer, RateSpecifiedSerializer
+from .serializers import SurveySerializer, QuestionSerializer, AnswerSerializer, LectureSerializer, DaySerializer, RateSerializer, ResponseSerializer, RateSpecifiedSerializer, ManyResponsesSerializer
 
 class SurveyViewSet(viewsets.ModelViewSet):
     paginator = None
     queryset = Survey.objects.all()
     serializer_class = SurveySerializer
 
-    @action(detail=True, methods=['post'])
+    @action(detail=False, methods=['post'])
     def reply(self, request, pk=None):
-        serializer = ResponseSerializer(data=request.data, many=True)
-        
-        if serializer.is_valid():
+        many_serializer = ManyResponsesSerializer(data=request.data)
+        if many_serializer.is_valid():
+            serializer = ResponseSerializer(data=many_serializer.data['answers'], many=True)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             for data in serializer.data:
                 for id in data['closed']:
                     answer = Answer.objects.get(pk=id)
@@ -36,6 +38,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     paginator = None
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+
 
 class LectureViewSet(viewsets.ModelViewSet):
     paginator = None

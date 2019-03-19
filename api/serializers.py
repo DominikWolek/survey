@@ -60,8 +60,8 @@ class ManyResponsesSerializer(serializers.Serializer):
 
 class ResponseSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20), allow_null=True)
-    open = serializers.CharField(allow_null=True)
+    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20), required=False)
+    open = serializers.CharField(required=False)
 
 
 class RateSerializer(serializers.Serializer):

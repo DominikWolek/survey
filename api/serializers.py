@@ -60,7 +60,7 @@ class ManyResponsesSerializer(serializers.Serializer):
 
 class ResponseSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0, max_value = 20), required=False)
+    closed = serializers.ListField(child=serializers.IntegerField(min_value = 0), required=False)
     open = serializers.CharField(required=False)
 
 
